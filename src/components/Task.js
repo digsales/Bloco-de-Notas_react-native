@@ -10,7 +10,10 @@ export default (props) => {
   const doneOrNotStyle =
     props.doneAt != null ? { textDecorationLine: "line-through" } : {};
 
-  const date = moment(props.estimateAt)
+  const dateEstimate = moment(props.estimateAt)
+    .locale("pt-br")
+    .format("ddd, D [de] MMMM");
+  const dateDone = moment(props.doneAt)
     .locale("pt-br")
     .format("ddd, D [de] MMMM");
 
@@ -19,7 +22,14 @@ export default (props) => {
       <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
       <View>
         <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
-        <Text style={styles.date}>{commomStyles.Capitalize(date)}</Text>
+        <Text style={styles.date}>{commomStyles.Capitalize(dateEstimate)}</Text>
+        {props.doneAt != null ? (
+          <Text style={styles.date}>
+            Concluído em {commomStyles.Capitalize(dateDone)}
+          </Text>
+        ) : (
+          false
+        )}
       </View>
     </View>
   );
