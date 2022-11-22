@@ -4,11 +4,14 @@ import commomStyles from "../commomStyles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 export default (props) => {
+  const doneOrNotStyle =
+    props.doneAt != null ? { textDecorationLine: "line-through" } : {};
+
   return (
     <View style={styles.container}>
       <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
       <View>
-        <Text>{props.desc}</Text>
+        <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
         <Text>{String(props.estimateAt)}</Text>
       </View>
     </View>
@@ -53,8 +56,13 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     borderWidth: 1,
     borderColor: "#555",
-    backgroundColor: "#1E90FF",
+    backgroundColor: "#4682B4",
     justifyContent: "center",
     alignItems: "center",
+  },
+  desc: {
+    fontFamily: commomStyles.fontFamily,
+    color: commomStyles.colors.mainText,
+    fontSize: 15,
   },
 });
