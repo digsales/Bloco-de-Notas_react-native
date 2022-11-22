@@ -5,6 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   StatusBar,
+  FlatList,
 } from "react-native";
 
 import commomStyles from "../commomStyles";
@@ -34,6 +35,23 @@ export default class TaskList extends Component {
   //   this.loadFonts();
   // }
 
+  state = {
+    tasks: [
+      {
+        id: Math.random(),
+        desc: "Comprar livro de react native",
+        estimateAt: new Date(2022, 11, 1),
+        doneAt: new Date(),
+      },
+      {
+        id: Math.random(),
+        desc: "Ler livro de react native",
+        estimateAt: new Date(2023, 0, 1),
+        doneAt: null,
+      },
+    ],
+  };
+
   render() {
     const today = moment().locale("pt-br").format("ddd, D [de] MMMM");
     return (
@@ -47,15 +65,10 @@ export default class TaskList extends Component {
           </View>
         </ImageBackground>
         <View style={styles.taskList}>
-          <Task
-            desc="Estudar para prova"
-            estimateAt={new Date(2022, 10, 29, 19, 15)}
-            doneAt={new Date()}
-          />
-          <Task
-            desc="Ler Livro"
-            estimateAt={new Date(2023, 0, 1)}
-            doneAt={null}
+          <FlatList
+            data={this.state.tasks}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => <Task {...item} />}
           />
         </View>
         <StatusBar
