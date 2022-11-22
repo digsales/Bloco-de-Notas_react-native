@@ -3,16 +3,23 @@ import { Text, View, StyleSheet } from "react-native";
 import commomStyles from "../commomStyles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
+import moment from "moment";
+import "moment/locale/pt-br";
+
 export default (props) => {
   const doneOrNotStyle =
     props.doneAt != null ? { textDecorationLine: "line-through" } : {};
+
+  const date = moment(props.estimateAt)
+    .locale("pt-br")
+    .format("ddd, D [de] MMMM");
 
   return (
     <View style={styles.container}>
       <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
       <View>
         <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
-        <Text>{String(props.estimateAt)}</Text>
+        <Text style={styles.date}>{commomStyles.Capitalize(date)}</Text>
       </View>
     </View>
   );
@@ -63,6 +70,11 @@ const styles = StyleSheet.create({
   desc: {
     fontFamily: commomStyles.fontFamily,
     color: commomStyles.colors.mainText,
-    fontSize: 15,
+    fontSize: 16,
+  },
+  date: {
+    fontFamily: commomStyles.fontFamily,
+    color: commomStyles.colors.subText,
+    fontSize: 14,
   },
 });

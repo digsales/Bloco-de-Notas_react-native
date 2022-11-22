@@ -34,10 +34,6 @@ export default class TaskList extends Component {
   //   this.loadFonts();
   // }
 
-  Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
   render() {
     const today = moment().locale("pt-br").format("ddd, D [de] MMMM");
     return (
@@ -45,13 +41,15 @@ export default class TaskList extends Component {
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.titleBar}>
             <Text style={styles.title}>Hoje</Text>
-            <Text style={styles.subtitle}>{this.Capitalize(today)}</Text>
+            <Text style={styles.subtitle}>
+              {commomStyles.Capitalize(today)}
+            </Text>
           </View>
         </ImageBackground>
         <View style={styles.taskList}>
           <Task
             desc="Estudar para prova"
-            estimateAt={new Date(2022, 10, 27, 19, 15)}
+            estimateAt={new Date(2022, 10, 29, 19, 15)}
             doneAt={new Date()}
           />
           <Task
