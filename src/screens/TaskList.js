@@ -9,6 +9,7 @@ import {
 
 import commomStyles from "../commomStyles";
 import todayImage from "../../assets/imgs/today.jpg";
+import Task from "../components/Task";
 // import * as Font from "expo-font";
 
 import moment from "moment";
@@ -48,9 +49,16 @@ export default class TaskList extends Component {
           </View>
         </ImageBackground>
         <View style={styles.taskList}>
-          <Text>Tarefa #01</Text>
-          <Text>Tarefa #02</Text>
-          <Text>Tarefa #03</Text>
+          <Task
+            desc="Estudar para prova"
+            estimateAt={new Date(2022, 10, 27, 19, 15)}
+            doneAt={new Date()}
+          />
+          <Task
+            desc="Ler Livro"
+            estimateAt={new Date(2023, 0, 1)}
+            doneAt={null}
+          />
         </View>
         <StatusBar
           barStyle={"light-content"}
