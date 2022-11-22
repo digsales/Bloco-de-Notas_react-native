@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import commomStyles from "../commomStyles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -19,7 +19,9 @@ export default (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
+      <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
+        <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
+      </TouchableWithoutFeedback>
       <View>
         <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
         <Text style={styles.date}>{commomStyles.Capitalize(dateEstimate)}</Text>
