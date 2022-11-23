@@ -40,6 +40,7 @@ export default class TaskList extends Component {
 
   state = {
     showDoneTasks: true,
+    visibleTasks: [],
     tasks: [
       {
         id: Math.random(),
@@ -53,11 +54,36 @@ export default class TaskList extends Component {
         estimateAt: new Date(2023, 0, 1),
         doneAt: null,
       },
+      {
+        id: Math.random(),
+        desc: "Treinar react native",
+        estimateAt: new Date(),
+        doneAt: null,
+      },
     ],
   };
 
-  toogleFilter = () => {
-    this.setState({ showDoneTasks: !this.state.showDoneTasks });
+  componentDidMount = () => {
+    this.filterTasks();
+  };
+
+  toggleFilter = () => {
+    this.setState({ showDoneTasks: !this.state.showDoneTasks }, () =>
+      this.filterTasks()
+    );
+  };
+
+  filterTasks = () => {
+    let visibleTasks = null;
+    if (this.state.showDoneTasks) {
+      visibleTasks = [...this.state.tasks];
+    } else {
+      const pending = function (task) {
+        return task.doneAt === null;
+      };
+      visibleTasks = this.state.tasks.filter(pending);
+    }
+    this.setState({ visibleTasks });
   };
 
   toggleTask = (taskId) => {
@@ -67,7 +93,7 @@ export default class TaskList extends Component {
         task.doneAt = task.doneAt ? null : new Date();
       }
     });
-    this.setState({ tasks });
+    this.setState({ tasks }, () => this.filterTasks());
   };
 
   render() {
@@ -76,10 +102,10 @@ export default class TaskList extends Component {
       <View style={styles.container}>
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.iconBar}>
-            <TouchableOpacity onPress={this.toogleFilter}>
+            <TouchableOpacity onPress={this.toggleFilter}>
               <FontAwesome
-                name={this.state.showDoneTasks === true ? "eye" : "eye-slash"}
-                color={"white"}
+                name={this.state.showDoneTasks ? "eye" : "eye-slash"}
+                color={commomStyles.colors.secondary}
                 size={20}
               />
             </TouchableOpacity>
@@ -93,7 +119,7 @@ export default class TaskList extends Component {
         </ImageBackground>
         <View style={styles.taskList}>
           <FlatList
-            data={this.state.tasks}
+            data={this.state.visibleTasks}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <Task {...item} toggleTask={this.toggleTask} />
