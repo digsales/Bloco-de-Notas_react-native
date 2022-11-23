@@ -6,7 +6,10 @@ import {
   StyleSheet,
   StatusBar,
   FlatList,
+  TouchableOpacity,
+  Platform,
 } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import commomStyles from "../commomStyles";
 import todayImage from "../../assets/imgs/today.jpg";
@@ -36,6 +39,7 @@ export default class TaskList extends Component {
   // }
 
   state = {
+    showDoneTasks: true,
     tasks: [
       {
         id: Math.random(),
@@ -50,6 +54,10 @@ export default class TaskList extends Component {
         doneAt: null,
       },
     ],
+  };
+
+  toogleFilter = () => {
+    this.setState({ showDoneTasks: !this.state.showDoneTasks });
   };
 
   toggleTask = (taskId) => {
@@ -67,6 +75,15 @@ export default class TaskList extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground source={todayImage} style={styles.background}>
+          <View style={styles.iconBar}>
+            <TouchableOpacity onPress={this.toogleFilter}>
+              <FontAwesome
+                name={this.state.showDoneTasks === true ? "eye" : "eye-slash"}
+                color={"white"}
+                size={20}
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.titleBar}>
             <Text style={styles.title}>Hoje</Text>
             <Text style={styles.subtitle}>
@@ -120,5 +137,12 @@ const styles = StyleSheet.create({
     color: commomStyles.colors.secondary,
     fontSize: 20,
     marginBottom: 10,
+  },
+  iconBar: {
+    // flexDirection: "row",
+    // justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginHorizontal: 20,
+    marginTop: Platform.OS === "ios" ? 45 : 40,
   },
 });
