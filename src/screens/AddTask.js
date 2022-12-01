@@ -26,6 +26,6 @@ export default class AddTask extends Component {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: rgba(0, 0, 0, 0.7),
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
 });
