@@ -10,7 +10,13 @@ import {
 } from "react-native";
 import commomStyles from "../commomStyles";
 
+const initialState = { desc: "" };
+
 export default class AddTask extends Component {
+  state = {
+    ...initialState,
+  };
+
   render() {
     return (
       <Modal
@@ -23,10 +29,17 @@ export default class AddTask extends Component {
           <View style={styles.background}>
             <View style={styles.container}>
               <Text style={styles.header}>Nova Tarefa</Text>
-              <TextInput style={styles.input} />
+              <TextInput
+                style={styles.input}
+                placeholder="Informe a descrição"
+                value={this.state.value}
+                onChangeText={(desc) => this.setState({ desc })}
+              />
               <View style={styles.buttons}>
                 <TouchableOpacity>
-                  <Text style={styles.button}>Cancelar</Text>
+                  <Text style={styles.button} onPress={this.props.onCancel}>
+                    Cancelar
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
                   <Text style={styles.button}>Salvar</Text>
