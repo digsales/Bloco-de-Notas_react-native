@@ -41,7 +41,7 @@ export default class TaskList extends Component {
 
   state = {
     showDoneTasks: true,
-    showAddTask: true,
+    showAddTask: false,
     visibleTasks: [],
     tasks: [
       {
@@ -132,6 +132,17 @@ export default class TaskList extends Component {
             )}
           />
         </View>
+        <TouchableOpacity
+          style={styles.addButton}
+          activeOpacity={0.7}
+          onPress={() => this.setState({ showAddTask: true })}
+        >
+          <FontAwesome
+            name="plus"
+            size={20}
+            color={commomStyles.colors.secondary}
+          />
+        </TouchableOpacity>
         <StatusBar
           barStyle={"light-content"}
           backgroundColor="transparent"
@@ -176,5 +187,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginHorizontal: 20,
     marginTop: Platform.OS === "ios" ? 45 : 40,
+  },
+  addButton: {
+    position: "absolute",
+    right: 30,
+    bottom: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: commomStyles.colors.today,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
