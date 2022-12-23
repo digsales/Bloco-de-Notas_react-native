@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Platform,
   Modal,
   View,
   StyleSheet,
@@ -8,13 +9,46 @@ import {
   TextInput,
   Text,
 } from "react-native";
+import moment from "moment/moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import commomStyles from "../commomStyles";
 
-const initialState = { desc: "" };
+const initialState = { desc: "", date: new Date(), showDatePicker: false };
 
 export default class AddTask extends Component {
   state = {
     ...initialState,
+  };
+
+  getDatePicker = () => {
+    let datePicker = (
+      <DateTimePicker
+        value={this.state.date}
+        onChange={(_, date) => this.setState({ date, showDatePicker: false })}
+        mode="date"
+      />
+    );
+
+    const dateString = moment(this.state.date)
+      .locale("pt-br")
+      .format("ddd, D [de] MMMM [de] YYYY");
+
+    if (Platform.OS === "android") {
+      return (datePicker = (
+        <View>
+          <TouchableOpacity
+            onPress={() => this.setState({ showDatePicker: true })}
+          >
+            <Text style={styles.date}>
+              {commomStyles.Capitalize(dateString)}
+            </Text>
+          </TouchableOpacity>
+          {this.state.showDatePicker && datePicker}
+        </View>
+      ));
+    } else {
+      return datePicker;
+    }
   };
 
   render() {
@@ -35,6 +69,7 @@ export default class AddTask extends Component {
                 value={this.state.value}
                 onChangeText={(desc) => this.setState({ desc })}
               />
+              {this.getDatePicker()}
               <View style={styles.buttons}>
                 <TouchableOpacity>
                   <Text style={styles.button} onPress={this.props.onCancel}>
@@ -73,17 +108,19 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: commomStyles.fontFamily,
-    width: "90%",
+    // width: "90%",
     height: 40,
-    marginTop: 10,
+    margin: 15,
+    // marginTop: 15,
     paddingHorizontal: 10,
-    alignSelf: "center",
+    // alignSelf: "center",
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "#e3e3e3",
     borderRadius: 6,
   },
   buttons: {
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "flex-end",
   },
@@ -91,5 +128,11 @@ const styles = StyleSheet.create({
     margin: 20,
     marginRight: 30,
     color: commomStyles.colors.today,
+  },
+  date: {
+    marginLeft: 15,
+    fontFamily: commomStyles.fontFamily,
+    fontSize: 18,
+    // textAlign: "center",
   },
 });
