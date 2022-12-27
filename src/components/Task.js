@@ -40,9 +40,25 @@ export default (props) => {
     );
   };
 
+  const getLeftContent = () => {
+    return (
+      <View style={styles.left}>
+        <FontAwesome
+          name="trash-o"
+          size={20}
+          color={commomStyles.colors.secondary}
+        />
+        <Text style={styles.excludeText}>Excluir</Text>
+      </View>
+    );
+  };
+
   return (
     <GestureHandlerRootView>
-      <Swipeable renderRightActions={getRightContent}>
+      <Swipeable
+        renderRightActions={getRightContent}
+        renderLeftActions={getLeftContent}
+      >
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
             <View style={styles.checkContainer}>
@@ -87,6 +103,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignItems: "center",
     paddingVertical: 10,
+    backgroundColor: "white",
   },
   checkContainer: {
     width: "20%",
@@ -126,5 +143,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     paddingHorizontal: 20,
+  },
+  left: {
+    flex: 1,
+    backgroundColor: "red",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+  },
+  excludeText: {
+    fontFamily: commomStyles.fontFamily,
+    color: "white",
+    fontSize: 20,
+    marginLeft: 10,
   },
 });
