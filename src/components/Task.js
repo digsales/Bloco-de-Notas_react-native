@@ -1,10 +1,21 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import commomStyles from "../commomStyles";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
+
+import { Swipeable } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import moment from "moment";
 import "moment/locale/pt-br";
+
+import commomStyles from "../commomStyles";
 
 export default (props) => {
   const doneOrNotStyle =
@@ -17,23 +28,43 @@ export default (props) => {
     .locale("pt-br")
     .format("ddd, D [de] MMMM");
 
+  const getRightContent = () => {
+    return (
+      <TouchableOpacity style={styles.right}>
+        <FontAwesome
+          name="trash"
+          size={30}
+          color={commomStyles.colors.secondary}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
-        <View style={styles.checkContainer}>{getCheckView(props.doneAt)}</View>
-      </TouchableWithoutFeedback>
-      <View>
-        <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
-        <Text style={styles.date}>{commomStyles.Capitalize(dateEstimate)}</Text>
-        {props.doneAt != null ? (
-          <Text style={styles.date}>
-            Concluído em {commomStyles.Capitalize(dateDone)}
-          </Text>
-        ) : (
-          false
-        )}
-      </View>
-    </View>
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={getRightContent}>
+        <View style={styles.container}>
+          <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
+            <View style={styles.checkContainer}>
+              {getCheckView(props.doneAt)}
+            </View>
+          </TouchableWithoutFeedback>
+          <View>
+            <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
+            <Text style={styles.date}>
+              {commomStyles.Capitalize(dateEstimate)}
+            </Text>
+            {props.doneAt != null ? (
+              <Text style={styles.date}>
+                Concluído em {commomStyles.Capitalize(dateDone)}
+              </Text>
+            ) : (
+              false
+            )}
+          </View>
+        </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
@@ -88,5 +119,12 @@ const styles = StyleSheet.create({
     fontFamily: commomStyles.fontFamily,
     color: commomStyles.colors.subText,
     fontSize: 14,
+  },
+  right: {
+    backgroundColor: "red",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingHorizontal: 20,
   },
 });
