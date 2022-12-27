@@ -32,7 +32,7 @@ export default (props) => {
     return (
       <TouchableOpacity style={styles.right}>
         <FontAwesome
-          name="trash"
+          name="trash-o"
           size={30}
           color={commomStyles.colors.secondary}
         />
