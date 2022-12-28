@@ -28,20 +28,20 @@ export default (props) => {
     .locale("pt-br")
     .format("ddd, D [de] MMMM");
 
-  const getRightContent = () => {
-    return (
-      <TouchableOpacity
-        style={styles.right}
-        onPress={() => props.onDelete && props.onDelete(props.id)}
-      >
-        <FontAwesome
-          name="trash-o"
-          size={30}
-          color={commomStyles.colors.secondary}
-        />
-      </TouchableOpacity>
-    );
-  };
+  // const getRightContent = () => {
+  //   return (
+  //     <TouchableOpacity
+  //       style={styles.right}
+  //       onPress={() => props.onDelete && props.onDelete(props.id)}
+  //     >
+  //       <FontAwesome
+  //         name="trash-o"
+  //         size={30}
+  //         color={commomStyles.colors.secondary}
+  //       />
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   const getLeftContent = () => {
     return (
@@ -59,7 +59,7 @@ export default (props) => {
   return (
     <GestureHandlerRootView>
       <Swipeable
-        renderRightActions={getRightContent}
+        // renderRightActions={getRightContent}
         renderLeftActions={getLeftContent}
         onSwipeableLeftOpen={() => props.onDelete && props.onDelete(props.id)}
       >
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     color: commomStyles.colors.subText,
     fontSize: 14,
   },
-  right: {
-    backgroundColor: "red",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingHorizontal: 20,
-  },
+  // right: {
+  //   backgroundColor: "red",
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   justifyContent: "flex-end",
+  //   paddingHorizontal: 20,
+  // },
   left: {
     flex: 1,
     backgroundColor: "red",
