@@ -11,15 +11,21 @@ import {
   Alert,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import moment from "moment";
+import "moment/locale/pt-br";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import commomStyles from "../commomStyles";
 import todayImage from "../../assets/imgs/today.jpg";
 import Task from "../components/Task";
 import AddTask from "./AddTask";
-// import * as Font from "expo-font";
 
-import moment from "moment";
-import "moment/locale/pt-br";
+const initialState = {
+  showDoneTasks: true,
+  showAddTask: false,
+  visibleTasks: [],
+  tasks: [],
+};
 
 export default class TaskList extends Component {
   // constructor(props) {
@@ -41,33 +47,13 @@ export default class TaskList extends Component {
   // }
 
   state = {
-    showDoneTasks: true,
-    showAddTask: false,
-    visibleTasks: [],
-    tasks: [
-      {
-        id: Math.random(),
-        desc: "Comprar livro de react native",
-        estimateAt: new Date(2022, 11, 1),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: "Ler livro de react native",
-        estimateAt: new Date(2023, 0, 1),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: "Treinar react native",
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-    ],
+    ...initialState,
   };
 
-  componentDidMount = () => {
-    this.filterTasks();
+  componentDidMount = async () => {
+    const stateString = await AsyncStorage.getItem("tasksState");
+    const state = JSON.parse(stateString) || initialState;
+    this.setState(state, this.filterTasks);
   };
 
   toggleFilter = () => {
@@ -87,6 +73,7 @@ export default class TaskList extends Component {
       visibleTasks = this.state.tasks.filter(pending);
     }
     this.setState({ visibleTasks });
+    AsyncStorage.setItem("tasksState", JSON.stringify(this.state));
   };
 
   toggleTask = (taskId) => {
